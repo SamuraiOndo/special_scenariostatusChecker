@@ -39,15 +39,15 @@ def printNeededChapters(scenario_status, nodes, passThrough = 0):
         passThrough += 1
         printNeededChapters(scenario_status['next_condition'][1],nodes,passThrough)
 
-def printNeededScenarios(scenario_status, nodes, passThrough = 0):
-    #print(f'Chapter: {nodes[scenario_status['scenario_category']][0]}')
-    if (passThrough == 0):
-        print('Scenario State: ',end='')
-    print(f'{nodes[scenario_status['scenario_category']][1][scenario_status['scenario_state']]}',end=' ')
+def printNeededScenarios(scenario_status, nodes, passThrough=0):
+    if passThrough == 0:
+        print('Scenario State: ', end='')
+    prefix = "NOT " if not scenario_status.get('expected_result', True) else ""
+    print(f'{prefix}{nodes[scenario_status["scenario_category"]][1][scenario_status["scenario_state"]]}', end=' ')
     if scenario_status['next_condition']:
-        print(f'{scenario_status['next_condition'][0]} ',end='')
+        print(f'{scenario_status["next_condition"][0]} ', end='')
         passThrough += 1
-        printNeededScenarios(scenario_status['next_condition'][1],nodes,passThrough)
+        printNeededScenarios(scenario_status['next_condition'][1], nodes, passThrough)
 
 def prettyPrint(scenario_status, nodes):
     printNeededChapters(scenario_status,nodes)
